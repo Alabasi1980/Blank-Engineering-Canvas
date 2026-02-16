@@ -93,7 +93,7 @@ export const DataStorageManager: React.FC = () => {
                 action={
                     <div className="flex gap-2">
                         <Button onClick={handleFullExport} variant="secondary" size="sm" icon={<DownloadCloud size={16}/>}>تصدير ملف كامل</Button>
-                        <Button onClick={handleSyncToDisk} isLoading={isSyncing} size="sm" icon={directoryHandle ? <Save size={16}/> : <FolderInput size={16}/>}>
+                        <Button onClick={handleSyncToDisk} loading={isSyncing} size="sm" icon={directoryHandle ? <Save size={16}/> : <FolderInput size={16}/>}>
                             {directoryHandle ? 'تحديث المزامنة المحلية' : 'ربط مجلد الحفظ'}
                         </Button>
                     </div>
