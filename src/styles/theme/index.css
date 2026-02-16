@@ -1,0 +1,10 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* NEBULA GLASS DESIGN SYSTEM - Central Import */
+@import './variables.css';
+@import './globals.css';
+@import './animations.css';
+@import './components.css';

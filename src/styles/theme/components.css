@@ -1,0 +1,127 @@
+
+/* --- The Glass Utility Class --- */
+.glass-panel {
+  background: var(--surface-card);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+}
+
+.glass-panel-hover:hover {
+  border-color: var(--border-highlight);
+  box-shadow: var(--shadow-neon);
+}
+
+/* --- Fantasy UI Components --- */
+.card-fantasy {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius-panel);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.input-fantasy, 
+input[type="text"], 
+input[type="number"], 
+input[type="email"], 
+input[type="password"], 
+select, 
+textarea {
+  width: 100%;
+  background: var(--surface-input) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-button);
+  padding: 0.75rem 1rem;
+  color: var(--text-main) !important;
+  font-family: var(--app-font);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-fantasy::placeholder,
+input::placeholder {
+    color: var(--text-muted);
+}
+
+.input-fantasy:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 15px var(--color-primary-glow);
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* --- Labels & Text --- */
+.label-fantasy {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+/* --- Sidebar Glass --- */
+.glass-sidebar {
+  background: var(--surface-sidebar); 
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-left: 1px solid var(--border-subtle);
+}
+
+/* --- Interactive Cards --- */
+.glass-card-interactive {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-interactive:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--color-primary);
+  box-shadow: 
+    0 10px 40px -10px rgba(0,0,0,0.5),
+    var(--shadow-neon),
+    inset 0 0 20px rgba(255,255,255,0.02);
+}
+
+/* --- Buttons --- */
+.btn-fantasy {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-radius: var(--radius-button);
+  font-weight: 800;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--text-on-primary);
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-neon);
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-main);
+  border-color: rgba(255,255,255,0.2);
+}

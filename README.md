@@ -1,11 +1,16 @@
-<div align="center">
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+# Executive Intelligence System (EIS Framework)
 
-  <h1>Built with AI Studio</h2>
+EIS هو إطار عمل هندسي (Generic Framework) لبناء لوحات القيادة والتقارير التنفيذية من الصفر. النظام مصمم ليكون **مجهول النطاق (Domain Agnostic)**؛ مما يعني أنه لا يفترض أي معنى مسبق لبياناتك.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## المميزات الرئيسية
+- **Local-First:** كافة البيانات والمعالجات تتم داخل متصفحك (خصوصية 100%).
+- **Logic Architect:** بناء معادلات رياضية وتجميعية معقدة بدون كود.
+- **Dynamic Dimensions:** أنت من يحدد "الأبعاد" (Dimensions) التي يتكون منها عالمك.
+- **Integrity Center:** محرك لفحص سلامة البيانات ومنع التكرار أو التداخل الهرمي.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## التشغيل المحلي
+1. `npm install`
+2. `npm run dev`
 
-</div>
+*ملاحظة: النظام لا يتطلب اتصالات خارجية للعمل الأساسي، هو مختبر بيانات مستقل تماماً.*

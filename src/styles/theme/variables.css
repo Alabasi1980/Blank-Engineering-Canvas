@@ -1,0 +1,65 @@
+
+:root {
+  /* --- Static Design System (Hardcoded) --- */
+  
+  /* 1. Surfaces (Dark Theme Default) */
+  --surface-app: #0f172a;
+  --surface-card: rgba(30, 41, 59, 0.7);
+  --surface-input: rgba(15, 23, 42, 0.5);
+  --surface-sidebar: rgba(15, 23, 42, 0.9);
+  --surface-overlay: rgba(30, 41, 59, 0.8);
+
+  /* 2. Text Colors */
+  --text-main: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-on-primary: #ffffff;
+
+  /* 3. Primary Brand Colors (Blue Scale) */
+  --color-primary: #3b82f6;
+  --color-primary-rgb: 59, 130, 246;
+  --color-primary-hover: #2563eb;
+  --color-primary-glass: rgba(59, 130, 246, 0.15);
+  --color-primary-glow: rgba(59, 130, 246, 0.5);
+  
+  /* Full Tailwind Scale Mapping */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+
+  /* 4. Secondary & Accents */
+  --color-secondary: #d946ef;
+
+  /* 5. Borders */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(59, 130, 246, 0.4);
+
+  /* 6. Effects & Atmosphere */
+  --glass-blur: 16px;
+  --radius-panel: 24px;
+  --radius-button: 12px;
+  --app-font: 'Cairo', sans-serif;
+  
+  /* Static Background Gradient */
+  --bg-atmosphere: radial-gradient(
+      circle at 50% -10%, 
+      rgba(37, 99, 235, 0.15) 0%, 
+      var(--surface-app) 70%
+  );
+  
+  /* Shadows */
+  --shadow-neon: 0 0 20px var(--color-primary-glow);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+  
+  /* Texture */
+  --bg-texture-image: none;
+  --bg-texture-size: auto;
+}
