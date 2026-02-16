@@ -1,21 +1,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { 
-    History, CheckCircle2, RotateCcw, AlertTriangle, GitBranch, Loader2, 
-    FolderInput, HardDrive, FileJson, Trash2, FolderOpen, RefreshCw, 
-    XCircle, Info, UploadCloud, Link as LinkIcon, Calendar, Clock, Database,
-    ShieldCheck, DownloadCloud, FileCode
+    History, CheckCircle2, AlertTriangle, GitBranch,
+    FolderInput, HardDrive, Trash2, Link as LinkIcon, Clock,
+    UploadCloud, FileCode
 } from 'lucide-react';
 import { Button } from '../../../shared/components/Button';
 import { useCompany } from '../../../context/CompanyContext';
 import { useVersion } from '../../../context/VersionContext';
 import { VersionStore, PublishedVersionInfo } from '../../../core/config/versionStore';
-import { ValidationService } from '../../../core/services/ValidationService';
 import { ValidationError } from '../../../types';
 import { useModal } from '../../../context/ModalContext';
 import { useUI } from '../../../context/UIContext';
 import { useFileSystem, FileEntry } from '../../../hooks/useFileSystem';
-import { migrateConfig } from '../../../core/utils/configMigrator';
 import { SimpleInputModal } from '../../../shared/components/SimpleInputModal';
 import { SettingsSectionHeader } from './system/SettingsSectionHeader';
 
@@ -31,7 +28,7 @@ export const VersionsPanel: React.FC = () => {
       isIdenticalToPublished 
   } = useVersion();
 
-  const { confirm, alert } = useModal();
+  const { confirm } = useModal();
   const { showToast } = useUI();
   
   const { linkDirectory, directoryHandle, permissionState, verifyPermission, listFiles, autoSaveToDirectory, deleteFile } = useFileSystem();
@@ -165,14 +162,14 @@ export const VersionsPanel: React.FC = () => {
                     </div>
                     {isDraftMode && (
                         <div className="flex gap-2">
-                            <Button variant="secondary" onClick={discardDraft} className="text-xs !py-2" icon={<XCircle size={14} />}>تجاهل التعديلات</Button>
+                            <Button variant="secondary" onClick={discardDraft} className="text-xs !py-2" icon={<AlertTriangle size={14} />}>تجاهل التعديلات</Button>
                             <Button 
                                 onClick={initiatePublish} 
-                                disabled={isPublishing} 
-                                icon={isPublishing ? <Loader2 className="animate-spin" size={16} /> : <UploadCloud size={16} />}
+                                loading={isPublishing} 
+                                icon={<UploadCloud size={16} />}
                                 className="text-xs !py-2 bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-500/20"
                             >
-                                {isPublishing ? 'جاري النشر...' : 'نشر التعديلات الآن'}
+                                نشر التعديلات الآن
                             </Button>
                         </div>
                     )}

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Globe, Lock, Code, Play, AlertCircle, CheckCircle, Loader2, Info } from 'lucide-react';
+import { Globe, Lock, Code, Play, AlertCircle, CheckCircle, Info } from 'lucide-react';
 import { ApiConfig } from '../../../../types';
 import { Button } from '../../../../../shared/components/Button';
 import { NetworkService } from '../../../../../core/services/NetworkService';
@@ -140,11 +140,12 @@ export const StepApiConnection: React.FC<StepApiConnectionProps> = ({ initialCon
       <div className="flex justify-end pt-4 border-t border-border-subtle">
           <Button 
             onClick={handleTestConnection} 
-            disabled={isTesting || !config.endpointUrl}
-            icon={isTesting ? <Loader2 className="animate-spin" /> : <Play size={16} />}
+            disabled={!config.endpointUrl}
+            loading={isTesting}
+            icon={<Play size={16} />}
             className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-500/20"
           >
-              {isTesting ? 'جاري الاتصال...' : 'اختبار الاتصال ومعاينة البيانات'}
+              اختبار الاتصال ومعاينة البيانات
           </Button>
       </div>
     </div>

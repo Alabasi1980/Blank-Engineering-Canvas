@@ -53,6 +53,7 @@ const ColorInput = ({ label, desc, value, onChange }: { label: string, desc: str
 export const ThemeSettingsView: React.FC = () => {
     const { config, updateConfig, saveDraftNow } = useCompany();
     const { showToast } = useUI();
+    const [isSaving, setIsSaving] = useState(false);
     
     // Initialize state
     const [tempTheme, setTempTheme] = useState<ThemeConfig>(() => {
@@ -135,10 +136,15 @@ export const ThemeSettingsView: React.FC = () => {
         });
     };
 
-    const handleSave = () => {
-        saveDraftNow();
-        showToast('تم حفظ الثيم بنجاح', 'success');
-        if (tempTheme.soundEnabled) AudioEngine.play('success');
+    const handleSave = async () => {
+        setIsSaving(true);
+        try {
+            await saveDraftNow();
+            showToast('تم حفظ الثيم بنجاح', 'success');
+            if (tempTheme.soundEnabled) AudioEngine.play('success');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const copyThemeJson = () => {
@@ -160,7 +166,7 @@ export const ThemeSettingsView: React.FC = () => {
                 />
                 <div className="flex gap-3 w-full md:w-auto">
                     <Button variant="secondary" onClick={handleRandomize} icon={<Shuffle size={16}/>}>توليد عشوائي</Button>
-                    <Button onClick={handleSave} size="lg" icon={<Check size={18}/>} className="btn-primary">حفظ التصميم</Button>
+                    <Button onClick={handleSave} loading={isSaving} size="lg" icon={<Check size={18}/>} className="btn-primary">حفظ التصميم</Button>
                 </div>
             </div>
 

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Activity, ShieldAlert, CheckCircle2, Table, Info, Fingerprint, RefreshCw, Loader2, Download, PlusCircle, AlertCircle, FileSpreadsheet } from 'lucide-react';
+import { Activity, ShieldAlert, CheckCircle2, Table, RefreshCw, Download, PlusCircle, AlertCircle } from 'lucide-react';
 import { AnalysisStats } from '../../../hooks/useImportWizard';
 import { Button } from '../../../../../shared/components/Button';
 
@@ -119,8 +119,8 @@ export const StepNormalization: React.FC<StepAnalysisProps> = ({ stats, onCommit
                 <div className="mt-10 flex justify-between items-center border-t border-border-subtle pt-8">
                     <Button variant="secondary" onClick={onBack} size="lg">رجوع للربط</Button>
                     <div className="flex gap-4">
-                        <Button onClick={onCommit} disabled={isProcessing} size="lg" className="bg-primary-600 hover:bg-primary-500 px-12 shadow-xl shadow-primary-500/20">
-                            {isProcessing ? <Loader2 className="animate-spin" /> : 'اعتماد التغييرات وتثبيت الحزمة'}
+                        <Button onClick={onCommit} loading={isProcessing} size="lg" className="bg-primary-600 hover:bg-primary-500 px-12 shadow-xl shadow-primary-500/20">
+                            اعتماد التغييرات وتثبيت الحزمة
                         </Button>
                     </div>
                 </div>

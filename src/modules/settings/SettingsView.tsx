@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronLeft, Save, Database, PlusCircle, Layout } from 'lucide-react';
 import { DashboardLayout, MainCard, SubCard, RuleRow } from '../../types';
 import { Button } from '../../shared/components/Button';
@@ -34,7 +34,7 @@ interface SettingsViewProps {
   
   onUpdateDashboardSource?: (sourceId: string) => void;
 
-  onSave: () => void;
+  onSave: () => void | Promise<void>;
   onReset: () => void;
   onAddDashboard?: (title: string, icon: string) => void;
 }
@@ -63,6 +63,16 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   onAddDashboard
 }) => {
   const { config } = useCompany();
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSave = async () => {
+      setIsSaving(true);
+      try {
+          await onSave();
+      } finally {
+          setIsSaving(false);
+      }
+  };
 
   if (!activeDashboard) {
       return (
@@ -123,7 +133,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
             <div className="flex gap-3 w-full md:w-auto">
                 <Button variant="secondary" onClick={onReset} className="flex-1 md:flex-none">إلغاء</Button>
-                <Button icon={<Save size={18} />} onClick={onSave} className="flex-1 md:flex-none">حفظ التغييرات</Button>
+                <Button icon={<Save size={18} />} onClick={handleSave} loading={isSaving} className="flex-1 md:flex-none">حفظ التغييرات</Button>
             </div>
         </div>
       </header>

@@ -1,6 +1,6 @@
 
 import React, { useMemo } from 'react';
-import { AlertTriangle, Loader2, Settings, Database, Layers, Key, Fingerprint, AlignLeft, Calendar, DollarSign, FileText, Info, Tag } from 'lucide-react';
+import { AlertTriangle, Settings, Database, Layers, Key, Fingerprint, AlignLeft, Calendar, DollarSign, FileText, Info, Tag } from 'lucide-react';
 import { ImportMapping, UpdateStrategy, ImportMode } from '../../../../types';
 import { Button } from '../../../../../shared/components/Button';
 import { useCompany } from '../../../../../context/CompanyContext';
@@ -176,8 +176,8 @@ export const StepMapping: React.FC<StepMappingProps> = ({
       <div className="mt-6 pt-6 border-t border-border-subtle flex justify-between items-center shrink-0">
           <Button variant="secondary" onClick={onBack}>السابق</Button>
           <div className="flex gap-2">
-              <Button onClick={onSave} disabled={isProcessing || !isReady} className="min-w-[150px]">
-                  {isProcessing ? <Loader2 className="animate-spin" /> : 'بدء التدقيق والمطابقة'}
+              <Button onClick={onSave} disabled={!isReady} loading={isProcessing} className="min-w-[150px]">
+                  بدء التدقيق والمطابقة
               </Button>
           </div>
       </div>

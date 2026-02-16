@@ -24,6 +24,16 @@ import { Button } from '../../shared/components/Button';
 export const SystemSettingsView: React.FC<any> = ({ onSave, onReset }) => {
   const { config, updateConfig } = useCompany();
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile');
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSave = async () => {
+      setIsSaving(true);
+      try {
+          await onSave();
+      } finally {
+          setIsSaving(false);
+      }
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -82,7 +92,7 @@ export const SystemSettingsView: React.FC<any> = ({ onSave, onReset }) => {
             </div>
             <div className="flex gap-3 w-full md:w-auto">
                 <Button variant="secondary" onClick={onReset} icon={<RefreshCw size={16}/>} className="!bg-surface-card !text-txt-secondary hover:!bg-surface-overlay">تحديث</Button>
-                <Button onClick={onSave} icon={<Save size={16}/>} className="shadow-lg shadow-primary-500/20">حفظ كافة الإعدادات</Button>
+                <Button onClick={handleSave} loading={isSaving} icon={<Save size={16}/>} className="shadow-lg shadow-primary-500/20">حفظ كافة الإعدادات</Button>
             </div>
         </header>
 

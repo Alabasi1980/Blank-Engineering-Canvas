@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Settings, Loader2, FileText, Calendar, Hash } from 'lucide-react';
+import { Settings, FileText, Calendar, Hash } from 'lucide-react';
 import { FileParseOptions } from '../../../../types';
 import { Button } from '../../../../../shared/components/Button';
 
@@ -116,8 +116,8 @@ export const StepOptions: React.FC<StepOptionsProps> = ({
 
       <div className="flex justify-between pt-6 border-t border-border-subtle">
         <Button variant="secondary" onClick={onBack}>رجوع</Button>
-        <Button onClick={onNext} disabled={isProcessing} className="shadow-lg shadow-blue-500/20">
-          {isProcessing ? <Loader2 className="animate-spin" /> : 'معاينة البيانات'}
+        <Button onClick={onNext} loading={isProcessing} className="shadow-lg shadow-blue-500/20">
+          معاينة البيانات
         </Button>
       </div>
       

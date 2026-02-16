@@ -82,7 +82,7 @@ export const StepPreview: React.FC<StepPreviewProps> = ({
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" onClick={onBack} disabled={isProcessing}>تعديل الخيارات</Button>
-          <Button onClick={onNext} disabled={isProcessing}>التالي: ربط الأعمدة</Button>
+          <Button onClick={onNext} loading={isProcessing}>التالي: ربط الأعمدة</Button>
         </div>
       </div>
     </div>
