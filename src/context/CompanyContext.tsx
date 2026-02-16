@@ -5,6 +5,7 @@ import { defaultCompanyConfig } from '../config/defaultCompanyConfig';
 import { VersionStore } from '../core/config/versionStore';
 import { LocalFileSystemService } from '../core/services/LocalFileSystemService';
 import { migrateConfig } from '../core/utils/configMigrator';
+import { ColorFactory } from '../core/theme/ColorFactory';
 
 interface CompanyContextType {
   config: CompanyConfig;
@@ -27,7 +28,50 @@ export const CompanyProvider: React.FC<{ children: ReactNode }> = ({ children })
   const [isLoaded, setIsLoaded] = useState(false);
   const isInitialLoad = useRef(true);
 
-  // --- THEME ENGINE REMOVED: Relying on static CSS in variables.css ---
+  // Global Theme Application Effect
+  useEffect(() => {
+    if (!isLoaded || !config.branding.theme) return;
+    
+    const theme = config.branding.theme;
+    const palette = ColorFactory.generate(theme.primaryColor, theme.mode);
+    const root = document.documentElement;
+
+    // Direct Mapping to EIS Design System Variables
+    root.style.setProperty('--surface-app', palette.bg.app);
+    root.style.setProperty('--surface-card', palette.bg.panel);
+    root.style.setProperty('--surface-input', `rgba(${theme.mode === 'dark' ? '0,0,0' : '255,255,255'}, 0.3)`);
+    root.style.setProperty('--surface-sidebar', `rgba(${theme.mode === 'dark' ? '15, 23, 42' : '248, 250, 252'}, 0.9)`);
+    root.style.setProperty('--surface-overlay', `rgba(${theme.mode === 'dark' ? '30, 41, 59' : '255, 255, 255'}, 0.8)`);
+    
+    root.style.setProperty('--color-primary', palette.primary.base);
+    root.style.setProperty('--color-primary-hover', palette.primary.hover);
+    root.style.setProperty('--color-primary-glass', palette.primary.glass);
+    root.style.setProperty('--color-primary-glow', palette.primary.glow);
+    root.style.setProperty('--color-secondary', theme.secondaryColor);
+    
+    root.style.setProperty('--app-font', theme.fontFamily);
+    root.style.setProperty('--glass-blur', `${theme.blur || 16}px`);
+    root.style.setProperty('--radius-button', theme.radius === 'full' ? '9999px' : theme.radius === 'lg' ? '12px' : theme.radius === 'md' ? '8px' : '0px');
+
+    // Texture
+    let textureUrl = 'none';
+    let textureSize = 'auto';
+    if (theme.texture === 'grid') {
+        textureUrl = `linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)`;
+        textureSize = '40px 40px';
+    } else if (theme.texture === 'dots') {
+        textureUrl = `radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)`;
+        textureSize = '20px 20px';
+    } else if (theme.texture === 'noise') {
+        textureUrl = `url("https://www.transparenttextures.com/patterns/stardust.png")`;
+    }
+    root.style.setProperty('--bg-texture-image', textureUrl);
+    root.style.setProperty('--bg-texture-size', textureSize);
+
+    // Atmosphere
+    root.style.setProperty('--bg-atmosphere', `radial-gradient(circle at 50% -20%, ${palette.primary.glass} 0%, ${palette.bg.app} 70%)`);
+
+  }, [config.branding.theme, isLoaded]);
 
   const hasUnsavedChanges = useMemo(() => {
       if (!isLoaded) return false;

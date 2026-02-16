@@ -14,8 +14,11 @@ import { Sidebar } from './components/Sidebar';
 import { DashboardView } from './modules/dashboard/DashboardView';
 import { SettingsView } from './modules/settings/SettingsView';
 import { SystemSettingsView } from './modules/settings/SystemSettingsView';
+import { ThemeSettingsView } from './modules/settings/ThemeSettingsView';
 import { useDashboardManagement } from './hooks/useDashboardManagement';
 import { Sparkles, Layout, Database, Code, ArrowRight } from 'lucide-react';
+
+type AppView = 'landing' | 'dashboard' | 'settings' | 'system_settings' | 'theme_settings';
 
 const LandingPage: React.FC<{ onEnter: () => void }> = ({ onEnter }) => (
   <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center relative overflow-hidden bg-surface-app text-txt-main" dir="rtl">
@@ -82,7 +85,7 @@ const LandingPage: React.FC<{ onEnter: () => void }> = ({ onEnter }) => (
 
 const MainAppContent: React.FC = () => {
   const { config, saveDraftNow, resetToDefault } = useCompany();
-  const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'settings' | 'system_settings'>('landing');
+  const [currentView, setCurrentView] = useState<AppView>('landing');
   
   const {
       activeDashboardId, setActiveDashboardId,
@@ -158,6 +161,10 @@ const MainAppContent: React.FC = () => {
             onSave={saveDraftNow}
             onReset={resetToDefault}
           />
+        )}
+
+        {currentView === 'theme_settings' && (
+          <ThemeSettingsView />
         )}
       </main>
     </div>

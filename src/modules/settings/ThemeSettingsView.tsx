@@ -51,11 +51,11 @@ const ColorInput = ({ label, desc, value, onChange }: { label: string, desc: str
 );
 
 export const ThemeSettingsView: React.FC = () => {
-    const { config, updateConfig, saveDraftNow } = useCompany();
+    const { config, updateBranding, saveDraftNow } = useCompany();
     const { showToast } = useUI();
     const [isSaving, setIsSaving] = useState(false);
     
-    // Initialize state
+    // Initialize state from existing config or defaults
     const [tempTheme, setTempTheme] = useState<ThemeConfig>(() => {
         const current = config?.branding?.theme;
         return {
@@ -74,28 +74,35 @@ export const ThemeSettingsView: React.FC = () => {
 
     const [colorScale, setColorScale] = useState<Record<string, string>>({});
 
-    // Apply variables to DOM immediately on change to reflect in the UI (Instant Feedback)
+    // Apply variables to DOM immediately on change for preview
     useEffect(() => {
         const palette = ColorFactory.generate(tempTheme.primaryColor, tempTheme.mode);
-        setColorScale(palette.primary.scale); // Save for visualization
+        setColorScale(palette.primary.scale);
 
         const root = document.documentElement;
         const t = tempTheme;
         
-        // Use factory output for consistent physics-based colors
-        root.style.setProperty('--bg-app', palette.bg.app);
+        // Correct Variable Mappings for EIS Design System
+        root.style.setProperty('--surface-app', palette.bg.app);
+        root.style.setProperty('--surface-card', palette.bg.panel);
+        
+        // Sub-surfaces (Derivatives)
+        const isDark = t.mode === 'dark';
+        root.style.setProperty('--surface-input', `rgba(${isDark ? '0,0,0' : '255,255,255'}, 0.3)`);
+        root.style.setProperty('--surface-sidebar', `rgba(${isDark ? '15, 23, 42' : '248, 250, 252'}, 0.9)`);
+        root.style.setProperty('--surface-overlay', `rgba(${isDark ? '30, 41, 59' : '255, 255, 255'}, 0.8)`);
+
         root.style.setProperty('--color-primary', palette.primary.base);
         root.style.setProperty('--color-primary-hover', palette.primary.hover);
         root.style.setProperty('--color-primary-glass', palette.primary.glass);
         root.style.setProperty('--color-primary-glow', palette.primary.glow);
         root.style.setProperty('--color-secondary', t.secondaryColor);
-        root.style.setProperty('--glass-surface', palette.bg.panel);
         
         root.style.setProperty('--app-font', t.fontFamily);
+        root.style.setProperty('--glass-blur', `${t.blur}px`);
         root.style.setProperty('--radius-button', t.radius === 'full' ? '9999px' : t.radius === 'lg' ? '12px' : t.radius === 'md' ? '8px' : '0px');
         
-        // Texture & Blur
-        root.style.setProperty('--glass-blur', `${t.blur}px`);
+        // Texture & Atmosphere
         let textureUrl = 'none';
         let textureSize = 'auto';
         if (t.texture === 'grid') {
@@ -109,8 +116,6 @@ export const ThemeSettingsView: React.FC = () => {
         }
         root.style.setProperty('--bg-texture-image', textureUrl);
         root.style.setProperty('--bg-texture-size', textureSize);
-
-        // Atmosphere
         root.style.setProperty('--bg-atmosphere', `radial-gradient(circle at 50% -20%, ${palette.primary.glass} 0%, ${palette.bg.app} 70%)`);
 
     }, [tempTheme]);
@@ -118,8 +123,8 @@ export const ThemeSettingsView: React.FC = () => {
     const handleApply = (updates: Partial<ThemeConfig>) => {
         const newTheme = { ...tempTheme, ...updates };
         setTempTheme(newTheme);
-        // Important: Update config context so it persists on save
-        updateConfig({ branding: { ...config.branding, theme: newTheme } });
+        // Sync with central config
+        updateBranding({ theme: newTheme });
         
         if (updates.soundEnabled !== undefined) {
             AudioEngine.play(updates.soundEnabled ? 'success' : 'toggle');
@@ -140,26 +145,21 @@ export const ThemeSettingsView: React.FC = () => {
         setIsSaving(true);
         try {
             await saveDraftNow();
-            showToast('تم حفظ الثيم بنجاح', 'success');
+            showToast('تم حفظ التصميم بنجاح', 'success');
             if (tempTheme.soundEnabled) AudioEngine.play('success');
         } finally {
             setIsSaving(false);
         }
     };
 
-    const copyThemeJson = () => {
-        navigator.clipboard.writeText(JSON.stringify(tempTheme, null, 2));
-        showToast('تم نسخ كود الثيم', 'success');
-    };
-
     return (
-        <div className="flex flex-col h-full w-full overflow-hidden relative text-txt-main transition-colors duration-500" style={{ backgroundColor: 'var(--bg-app)' }}>
+        <div className="flex flex-col h-full w-full overflow-hidden relative text-txt-main transition-colors duration-500" style={{ backgroundColor: 'var(--surface-app)' }}>
             
             {/* Header */}
             <div className="shrink-0 p-6 border-b border-border-subtle z-20 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface-overlay backdrop-blur-md">
                 <SettingsSectionHeader 
                     title="استوديو التصميم (Theme Studio)"
-                    description="مصنع الألوان الذكي. نستخدم معادلات فيزيائية لتوليد تدرجات لونية متجانسة."
+                    description="قم بتشكيل الهوية البصرية لنظامك. الألوان والخطوط تتغير لحظياً في كافة أجزاء لوحة القيادة."
                     icon={Palette}
                     bgClass="bg-surface-input"
                     iconColorClass="text-txt-main"
@@ -172,7 +172,7 @@ export const ThemeSettingsView: React.FC = () => {
                         size="lg" 
                         icon={<Check size={18}/>} 
                         variant="primary"
-                        className="shadow-lg shadow-primary-500/20 font-black"
+                        className="shadow-lg shadow-primary-500/20 font-black btn-primary"
                     >
                         حفظ التصميم
                     </Button>
@@ -184,10 +184,10 @@ export const ThemeSettingsView: React.FC = () => {
                 {/* LEFT: Controls Panel */}
                 <div className="w-full lg:w-[400px] border-l border-border-subtle overflow-y-auto custom-scrollbar p-6 space-y-8 z-10 backdrop-blur-xl glass-sidebar">
                     
-                    {/* Scale Visualization (The Factory Output) */}
+                    {/* Scale Visualization */}
                     <section>
                         <h4 className="label-fantasy flex items-center gap-2 mb-3">
-                            <Beaker size={14}/> خط إنتاج الألوان (Scale Generation)
+                            <Beaker size={14}/> تدرجات اللون الأساسي (Tonal Scale)
                         </h4>
                         <div className="flex rounded-xl overflow-hidden h-12 shadow-lg ring-1 ring-border-subtle">
                             {Object.entries(colorScale).map(([step, hex]) => (
@@ -203,9 +203,6 @@ export const ThemeSettingsView: React.FC = () => {
                                 </div>
                             ))}
                         </div>
-                        <p className="text-[9px] text-txt-muted mt-2 leading-relaxed">
-                            يتم توليد هذا التدرج (50-950) تلقائياً باستخدام معادلات Hue Rotation للحصول على ظلال طبيعية بدلاً من الخلط الخطي.
-                        </p>
                     </section>
 
                     <div className="h-px bg-border-subtle"></div>
@@ -301,24 +298,24 @@ export const ThemeSettingsView: React.FC = () => {
                     {/* 3. Custom Colors */}
                     <section>
                         <h4 className="label-fantasy flex items-center gap-2">
-                            <Palette size={14}/> التخصيص الدقيق
+                            <Palette size={14}/> تخصيص الألوان
                         </h4>
                         <div className="space-y-4">
                             <ColorInput 
                                 label="اللون الأساسي (Primary)" 
-                                desc="الأزرار، الروابط، التمييز"
+                                desc="الأزرار والروابط"
                                 value={tempTheme.primaryColor} 
                                 onChange={c => handleApply({ primaryColor: c })} 
                             />
                             <ColorInput 
                                 label="اللون الثانوي (Secondary)" 
-                                desc="التدرجات، العناصر الثانوية"
+                                desc="التدرجات المساعدة"
                                 value={tempTheme.secondaryColor} 
                                 onChange={c => handleApply({ secondaryColor: c })} 
                             />
                             <ColorInput 
                                 label="لون الخلفية (Void)" 
-                                desc="لون الفضاء العميق"
+                                desc="خلفية التطبيق الكلية"
                                 value={tempTheme.backgroundColor} 
                                 onChange={c => handleApply({ backgroundColor: c })} 
                             />
@@ -330,7 +327,7 @@ export const ThemeSettingsView: React.FC = () => {
                     {/* 4. Typography & UI */}
                     <section>
                         <h4 className="label-fantasy flex items-center gap-2">
-                            <Type size={14}/> الخطوط والطباعة
+                            <Type size={14}/> الخطوط
                         </h4>
                         <div className="space-y-2 mb-6">
                             {FONTS.map(font => (
@@ -340,13 +337,13 @@ export const ThemeSettingsView: React.FC = () => {
                                     className={`w-full p-3 rounded-xl border transition-all flex items-center justify-between group ${tempTheme.fontFamily === font.name ? 'bg-primary-500/10 border-primary-500/50' : 'bg-transparent border-border-subtle hover:bg-surface-input'}`}
                                 >
                                     <span className="text-xs font-bold text-txt-main" style={{ fontFamily: font.name }}>{font.label}</span>
-                                    <span className="text-[10px] text-txt-muted" style={{ fontFamily: font.name }}>تجربة النص</span>
+                                    <span className="text-[10px] text-txt-muted" style={{ fontFamily: font.name }}>ABC/أبج</span>
                                 </button>
                             ))}
                         </div>
 
                         <h4 className="label-fantasy flex items-center gap-2">
-                            <Layout size={14}/> استدارة الزوايا
+                            <Layout size={14}/> استدارة الحواف
                         </h4>
                         <div className="flex bg-surface-input p-1 rounded-xl gap-1 border border-border-subtle">
                             {['none', 'md', 'lg', 'full'].map((r: any) => (
@@ -360,13 +357,6 @@ export const ThemeSettingsView: React.FC = () => {
                             ))}
                         </div>
                     </section>
-
-                    <div className="pt-6 mt-6 border-t border-border-subtle">
-                        <button onClick={copyThemeJson} className="w-full flex items-center justify-center gap-2 py-3 border border-dashed border-border-subtle rounded-xl text-xs font-bold text-txt-muted hover:text-txt-main hover:border-primary-500/30 transition-all">
-                            <Copy size={14} /> نسخ كود الثيم (JSON)
-                        </button>
-                    </div>
-
                 </div>
 
                 {/* RIGHT: Live Preview HUD */}
@@ -374,7 +364,7 @@ export const ThemeSettingsView: React.FC = () => {
                     
                     <div className="absolute top-4 left-4 z-10 bg-surface-overlay backdrop-blur-md px-4 py-2 rounded-full border border-border-subtle flex items-center gap-2 animate-pulse-glow">
                         <Monitor size={14} className="text-primary-400"/>
-                        <span className="text-[10px] font-bold text-txt-main">نظام محاكاة الواجهة (Live HUD)</span>
+                        <span className="text-[10px] font-bold text-txt-main">معاينة مباشرة (Live HUD)</span>
                     </div>
 
                     {/* The Dashboard Mockup */}

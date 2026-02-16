@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
-import { LayoutDashboard, Settings, Plus, ShoppingCart, Package, BarChart, Trash2, X, Users, Briefcase, ChevronLeft, ChevronRight, PieChart, Sliders, Menu, Hexagon } from 'lucide-react';
+import { LayoutDashboard, Settings, Plus, ShoppingCart, Package, BarChart, Trash2, X, Users, Briefcase, ChevronLeft, ChevronRight, PieChart, Sliders, Menu, Hexagon, Palette } from 'lucide-react';
 import { DashboardLayout, BrandingConfig } from '../types';
 
 interface SidebarProps {
-  currentView: 'dashboard' | 'settings' | 'system_settings';
-  onNavigate: (view: 'dashboard' | 'settings' | 'system_settings') => void;
+  currentView: 'dashboard' | 'settings' | 'system_settings' | 'theme_settings' | any;
+  onNavigate: (view: any) => void;
   dashboards: DashboardLayout[];
   activeDashboardId: string;
   onDashboardSelect: (id: string) => void;
@@ -132,6 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <NavItem active={currentView === 'dashboard'} onClick={() => onNavigate('dashboard')} icon={<LayoutDashboard size={18} />} label="لوحة القيادة" collapsed={isCollapsed}/>
               <NavItem active={currentView === 'settings'} onClick={() => onNavigate('settings')} icon={<Settings size={18} />} label="إدارة البطاقات" collapsed={isCollapsed}/>
               <NavItem active={currentView === 'system_settings'} onClick={() => onNavigate('system_settings')} icon={<Sliders size={18} />} label="تكوين النظام" collapsed={isCollapsed}/>
+              <NavItem active={currentView === 'theme_settings'} onClick={() => onNavigate('theme_settings')} icon={<Palette size={18} />} label="استوديو التصميم" collapsed={isCollapsed}/>
           </div>
 
           <div>

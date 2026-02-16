@@ -9,7 +9,7 @@ import { defaultCompanyConfig } from '../../config/defaultCompanyConfig';
 const VALID_BRANDING_KEYS = new Set([
     'companyName', 'subtitle', 'reportHeader', 'reportSubtitle', 
     'systemUser', 'userEmail', 'sidebarColor', 'reportPrefix', 
-    'reportFooter', 'dateFormat', 'numberFormat', 'logo'
+    'reportFooter', 'dateFormat', 'numberFormat', 'logo', 'theme'
 ]);
 
 /**
