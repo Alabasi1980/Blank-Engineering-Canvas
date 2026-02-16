@@ -3,6 +3,8 @@ import React from 'react';
 import { useCompany } from '../../../context/CompanyContext';
 import { BrandingConfig } from '../../../types';
 import { SnapshotToolbar } from './SnapshotToolbar';
+import { Button } from '../../../shared/components/Button';
+import { HelpCircle } from 'lucide-react';
 
 interface DashboardHeaderProps {
   companyConfig: BrandingConfig;
@@ -42,17 +44,15 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 {/* Optional: Add date range display or other summary info here */}
             </div>
             
-            <button 
+            <Button 
+                variant="ghost" 
+                size="sm" 
                 onClick={onOpenGuide}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all border"
-                style={{
-                    backgroundColor: 'color-mix(in srgb, var(--color-primary), transparent 90%)',
-                    color: 'var(--color-primary)',
-                    borderColor: 'color-mix(in srgb, var(--color-primary), transparent 80%)'
-                }}
+                icon={<HelpCircle size={16} />}
+                className="font-bold border border-primary-500/20 text-primary-400 hover:bg-primary-500/10"
             >
                 دليل الاستخدام
-            </button>
+            </Button>
         </div>
       </div>
     </div>

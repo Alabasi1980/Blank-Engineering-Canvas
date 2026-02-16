@@ -101,7 +101,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <DashboardFilterBar filterOptions={filterOptions} />
       </div>
 
-      <div className="p-6 md:p-8 space-y-10 min-h-[500px]">
+      <div className="max-w-6xl mx-auto w-full px-8 py-8 space-y-10 min-h-[500px]">
         {activeMainCards.length > 0 ? (
             activeMainCards.map((mainCard, sectionIdx) => {
                 const theme = CARD_COLORS.find(c => c.value === mainCard.color) || CARD_COLORS[0];
