@@ -65,10 +65,17 @@ export const SubCardEditor: React.FC<SubCardEditorProps> = ({
             <span className="text-border-highlight opacity-30">|</span>
             <span className="font-bold text-txt-main">{subCard.title}</span>
         </div>
-        <button onClick={() => setShowPreview(true)} className="flex items-center gap-2 bg-primary-600 hover:bg-primary-500 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-lg shadow-primary-900/20">
-            <Eye size={14} />
+        
+        {/* Task #5: Unified Button Component for Preview */}
+        <Button 
+            onClick={() => setShowPreview(true)} 
+            variant="primary" 
+            size="sm" 
+            icon={<Eye size={14} />}
+            className="shadow-lg shadow-primary-900/20 font-black"
+        >
             معاينة النتيجة
-        </button>
+        </Button>
       </div>
       
       {/* 2. Metadata Section */}
