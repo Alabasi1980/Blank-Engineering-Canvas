@@ -166,7 +166,16 @@ export const ThemeSettingsView: React.FC = () => {
                 />
                 <div className="flex gap-3 w-full md:w-auto">
                     <Button variant="secondary" onClick={handleRandomize} icon={<Shuffle size={16}/>}>توليد عشوائي</Button>
-                    <Button onClick={handleSave} loading={isSaving} size="lg" icon={<Check size={18}/>} className="btn-primary">حفظ التصميم</Button>
+                    <Button 
+                        onClick={handleSave} 
+                        loading={isSaving} 
+                        size="lg" 
+                        icon={<Check size={18}/>} 
+                        variant="primary"
+                        className="shadow-lg shadow-primary-500/20 font-black"
+                    >
+                        حفظ التصميم
+                    </Button>
                 </div>
             </div>
 
