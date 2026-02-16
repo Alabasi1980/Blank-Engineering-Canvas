@@ -28,8 +28,8 @@ export const MainCardEditor: React.FC<MainCardEditorProps> = ({
   onDeleteSubCard
 }) => {
   return (
-    <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-      <div className="flex items-center gap-2 mb-6 text-txt-secondary cursor-pointer lg:hidden hover:text-primary-400 transition-colors" onClick={onBack}>
+    <div className="space-y-10">
+      <div className="flex items-center gap-2 text-txt-secondary cursor-pointer lg:hidden hover:text-primary-400 transition-colors mb-4" onClick={onBack}>
         <ArrowRight size={20} />
         <span>العودة للقائمة</span>
       </div>
@@ -40,15 +40,15 @@ export const MainCardEditor: React.FC<MainCardEditorProps> = ({
         onDelete={onDelete}
       />
 
-      <div className="flex justify-between items-end mb-6">
+      <div className="flex justify-between items-end">
         <div>
-          <h2 className="text-xl font-bold text-txt-main flex items-center gap-2">
-            <Layout size={24} className="text-txt-muted" />
-            البطاقات الفرعية
+          <h2 className="text-xl font-black text-txt-main flex items-center gap-3">
+            <Layout size={24} className="text-primary-500" />
+            البطاقات والمؤشرات الفرعية
           </h2>
-          <p className="text-txt-secondary mt-1 text-sm">إدارة المحتوى الذي يظهر داخل هذه المجموعة</p>
+          <p className="text-txt-secondary mt-1 text-sm font-medium">إدارة المحتوى والقواعد التي تظهر داخل هذه المجموعة</p>
         </div>
-        <Button onClick={onAddSubCard} icon={<Plus size={18} />}>بطاقة فرعية جديدة</Button>
+        <Button onClick={onAddSubCard} icon={<Plus size={18} />} className="shadow-lg">بطاقة مؤشر جديدة</Button>
       </div>
 
       <SubCardGrid 
